@@ -11,11 +11,11 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
+app.get('/api/', (req, res) => {
     res.json('hello to my app')
 })
 
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     const client = new MongoClient(uri)
     const {email, password} = req.body
 
@@ -51,7 +51,7 @@ app.post('/signup', async (req, res) => {
 
 })
 
-app.post('/login', async (req, res)=> {
+app.post('/api/login', async (req, res)=> {
     const client = new MongoClient(uri)
     const { email, password } = req.body
 
@@ -74,7 +74,7 @@ app.post('/login', async (req, res)=> {
     }
 })
 
-app.get('/user', async (req, res) => {
+app.get('/api/user', async (req, res) => {
     const client = new MongoClient(uri)
     const userId = req.query.userId
 
@@ -94,7 +94,7 @@ app.get('/user', async (req, res) => {
 
 
 
-app.get('/gendered-users', async (req, res) => {
+app.get('/api/gendered-users', async (req, res) => {
     const client = new MongoClient(uri)
     const gender = req.query.gender
     try{
@@ -110,7 +110,7 @@ app.get('/gendered-users', async (req, res) => {
     }
 })
 
-app.put('/users', async (req, res) => {
+app.put('/api/users', async (req, res) => {
 
     const client = new MongoClient(uri)
     const formData = req.body.formData
@@ -144,7 +144,7 @@ app.put('/users', async (req, res) => {
 })
 
 
-app.put('/addmatch', async (req, res) => {
+app.put('/api/addmatch', async (req, res) => {
 
     const client = new MongoClient(uri)
     const {userId, matchedUserId} = req.body
@@ -167,7 +167,7 @@ app.put('/addmatch', async (req, res) => {
 })
 
 
-app.get('/users', async (req, res) => {
+app.get('/api/users', async (req, res) => {
     const client = new MongoClient(uri)
     const userIds = JSON.parse(req.query.userIds)
     try{
@@ -193,7 +193,7 @@ app.get('/users', async (req, res) => {
     }
 })
 
-app.get('/messages', async (req, res) => {
+app.get('/api/messages', async (req, res) => {
     const {userId, correspondingUserId} = req.query
     const client = new MongoClient(uri)
 
@@ -213,7 +213,7 @@ app.get('/messages', async (req, res) => {
 })
 
 // Add a Message to our Database
-app.post('/message', async (req, res) => {
+app.post('/api/message', async (req, res) => {
     const client = new MongoClient(uri)
     const message = req.body.message
 
