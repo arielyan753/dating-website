@@ -11,8 +11,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.get('/api/', (req, res) => {
-    res.json('hello to my app')
+app.get('/api/', (req, res) => { //ariel
+    res.json('hello to my app- ariel')
 })
 
 app.post('/api/signup', async (req, res) => {
