@@ -5,13 +5,17 @@ const { MongoClient } = require('mongodb')
 const { v4: uuidv4 } = require('uuid')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
-const uri = 'mongodb+srv://ariel753:741236985@cluster0.zohlghl.mongodb.net/Cluster0?retryWrites=true&w=majority'
+require('dotenv').config()
+
+const uri = process.env.URI
+
 
 const app = express()
+const path = require("path");
 app.use(cors())
 app.use(express.json())
 
-app.get('/api/', (req, res) => { //ariel
+app.get('/api/', (req, res) => { 
     res.json('hello to my app- ariel')
 })
 
@@ -228,8 +232,33 @@ app.post('/api/message', async (req, res) => {
         await client.close()
     }
 })
+app.get('/api/read-users', async (req, res) => {
+    const client = new MongoClient(uri)
+    try{
+        await client.connect()
+        const database = client.db('app-data')
+        const users = database.collection('users')
+        const foundUsers = await users.find().toArray()
+
+        res.json(foundUsers)
+    } finally {
+        await client.close()
+    }
+})
 
 
+app.use(express.static(path.join(__dirname, "./frontend/build")));
+
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./frontend/build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
 
 
 app.listen(PORT, ()=> console.log('Server running on PORT ' + PORT))
